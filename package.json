@@ -16,5 +16,9 @@
     "eslint-plugin-import": "^2.25.3",
     "husky": "^7.0.4",
     "prettier": "2.4.1"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "pg": "^8.7.1"
   }
 }
