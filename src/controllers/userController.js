@@ -10,23 +10,33 @@ async function signUp(req, res) {
     password,
   });
 
-  if (!isSignUpInputValid) {
-    return res.sendStatus(400);
-  }
+  if (!isSignUpInputValid) return res.sendStatus(400);
 
   const wasEmailFound = await userService.wasEmailFound(email);
 
-  if (wasEmailFound) {
-    return res.sendStatus(409);
-  }
+  if (wasEmailFound) return res.sendStatus(409);
 
   const user = await userService.createUser({ name, email, password });
 
-  if (user) {
-    return res.sendStatus(201);
-  }
+  if (user) return res.sendStatus(201);
 
   return res.sendStatus(500);
 }
 
-export { signUp };
+async function signIn(req, res) {
+  const { email, password } = req.body;
+
+  const isSignInInputVlid = userValidation.isSignInInputValid({
+    email,
+    password,
+  });
+
+  if (!isSignInInputVlid) return res.sendStatus(400);
+
+  const session = await userService.authenticate({ email, password });
+
+  if (session) return res.send(session);
+  return res.sendStatus(401);
+}
+
+export { signUp, signIn };

@@ -1,8 +1,13 @@
-import { singUpSchema } from './schemes.js';
+import { signUpSchema, signInSchema } from './schemes.js';
 
 function isSignUpInputValid({ name, email, password }) {
-  if (singUpSchema.validate({ name, email, password }).error) return false;
+  if (signUpSchema.validate({ name, email, password }).error) return false;
   return true;
 }
 
-export { isSignUpInputValid };
+function isSignInInputValid({ email, password }) {
+  if (signInSchema.validate({ email, password }).error) return false;
+  return true;
+}
+
+export { isSignUpInputValid, isSignInInputValid };

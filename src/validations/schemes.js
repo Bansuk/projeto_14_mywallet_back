@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-const singUpSchema = joi.object({
+const signUpSchema = joi.object({
   name: joi
     .string()
     .min(2)
@@ -15,4 +15,11 @@ const singUpSchema = joi.object({
     .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,64}$/),
 });
 
-export { singUpSchema };
+const signInSchema = joi.object({
+  email: joi.string().email().required(),
+  password: joi
+    .string()
+    .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,64}$/),
+});
+
+export { signUpSchema, signInSchema };
