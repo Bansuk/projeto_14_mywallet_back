@@ -9,5 +9,6 @@ app.use(express.json());
 app.use(cors());
 
 app.post('/sign-up', userController.signUp);
+app.post('/sign-in', userController.signIn);
 
 export default app;
