@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import { insertUser } from '../../src/repositories/userRepository';
 
 async function createUser() {
-  // including number and special character since faker doesn't always do it
   const fakePassword = `${faker.internet.password()}!1`;
   const user = {
     name: faker.name.findName(),

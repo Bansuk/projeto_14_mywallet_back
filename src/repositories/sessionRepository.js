@@ -14,4 +14,32 @@ async function createSession({ token, user }) {
   }
 }
 
-export { createSession };
+async function findByToken(token) {
+  try {
+    const result = await connection.query(
+      'SELECT * FROM session WHERE token = $1',
+      [token],
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+async function deleteSession(token) {
+  try {
+    const result = await connection.query(
+      'DELETE FROM session WHERE token = $1',
+      [token],
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export { createSession, findByToken, deleteSession };

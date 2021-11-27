@@ -43,4 +43,12 @@ async function authenticate({ email, password }) {
   return null;
 }
 
-export { wasEmailFound, createUser, authenticate };
+async function removeSession(token) {
+  const wasSessionClosed = await sessionRepository.deleteSession(token);
+
+  return !!wasSessionClosed;
+}
+
+export {
+  wasEmailFound, createUser, authenticate, removeSession,
+};
