@@ -35,8 +35,18 @@ async function signIn(req, res) {
 
   const session = await userService.authenticate({ email, password });
 
-  if (session) return res.send(session);
+  if (session) return res.status(200).send(session);
   return res.sendStatus(401);
 }
 
-export { signUp, signIn };
+async function signOut(req, res) {
+  const { token } = req.user;
+
+  const wasSessionClosed = userService.removeSession(token);
+
+  if (wasSessionClosed) return res.sendStatus(200);
+
+  return res.sendStatus(500);
+}
+
+export { signUp, signIn, signOut };
