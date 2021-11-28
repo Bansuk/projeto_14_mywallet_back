@@ -1,6 +1,6 @@
 import connection from '../database/database.js';
 
-async function createSession({ token, user }) {
+async function insertSession({ token, user }) {
   try {
     const result = await connection.query(
       'INSERT INTO session(token, user_account_id) VALUES ($1, $2);',
@@ -35,11 +35,11 @@ async function deleteSession(token) {
       [token],
     );
 
-    return result.rows[0];
+    return result.rowCount;
   } catch (error) {
     console.log(error);
     return null;
   }
 }
 
-export { createSession, findByToken, deleteSession };
+export { insertSession, findByToken, deleteSession };

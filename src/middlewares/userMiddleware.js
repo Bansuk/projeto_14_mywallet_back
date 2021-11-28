@@ -14,11 +14,11 @@ async function verifyToken(req, res, next) {
     if (err) return res.sendStatus(401);
   });
 
-  const session = findByToken(token);
+  const session = await findByToken(token);
 
   if (!session) return res.sendStatus(401);
 
-  req.user = token;
+  req.user = session;
 
   next();
 }

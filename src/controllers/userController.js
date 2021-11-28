@@ -42,7 +42,7 @@ async function signIn(req, res) {
 async function signOut(req, res) {
   const { token } = req.user;
 
-  const wasSessionClosed = userService.removeSession(token);
+  const wasSessionClosed = await userService.removeSession(token);
 
   if (wasSessionClosed) return res.sendStatus(200);
 

@@ -2,7 +2,7 @@ import faker from 'faker/locale/pt_BR';
 import bcrypt from 'bcrypt';
 import { insertUser } from '../../src/repositories/userRepository';
 
-async function createUser() {
+function createUserBody() {
   const fakePassword = `${faker.internet.password()}!1`;
   const user = {
     name: faker.name.findName(),
@@ -11,9 +11,17 @@ async function createUser() {
     password: bcrypt.hashSync(fakePassword, 10),
   };
 
-  await insertUser(user);
+  return user;
+}
+
+async function createUser() {
+  const user = createUserBody();
+
+  const result = await insertUser(user);
+
+  user.id = result.id;
 
   return user;
 }
 
-export { createUser };
+export { createUserBody, createUser };
