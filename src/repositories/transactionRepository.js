@@ -32,7 +32,7 @@ async function getBalance(user) {
   try {
     const result = await connection.query(
       'SELECT SUM(value) FROM transaction WHERE user_account_id = $1',
-      [user.id],
+      [user.user_account_id],
     );
 
     return result.rows[0].sum;

@@ -17,4 +17,6 @@ app.delete('/sign-out', verifyToken, userController.signOut);
 app.post('/transaction', verifyToken, transactionController.produceTransaction);
 app.get('/transactions', verifyToken, transactionController.receiveTransaction);
 
+app.get('/balance', verifyToken, transactionController.receiveBalance);
+
 export default app;

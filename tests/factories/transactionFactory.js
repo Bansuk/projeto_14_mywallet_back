@@ -4,7 +4,7 @@ import { insertTransaction } from '../../src/repositories/transactionRepository'
 function createTransactionBody() {
   const body = {
     description: faker.lorem.words(3),
-    value: faker.datatype.number(),
+    value: faker.datatype.number({ min: 1, max: 99999, precision: 0.01 }),
   };
 
   return body;

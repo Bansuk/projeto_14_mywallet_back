@@ -69,8 +69,8 @@ describe('GET /transactions', () => {
 
   test("should return 204 when there aren't available transacations", async () => {
     const { token } = await createSession();
-
     const result = await getTransactions(token);
+
     expect(result.status).toEqual(204);
   });
 
@@ -81,5 +81,37 @@ describe('GET /transactions', () => {
 
     expect(result.status).toEqual(200);
     expect(result.body).toHaveLength(1);
+  });
+});
+
+describe('GET /balance', () => {
+  test('should return 401 when token is not provided', async () => {
+    const result = await supertest(app).get('/balance');
+
+    expect(result.status).toEqual(401);
+  });
+
+  test("should return 204 when there aren't available transacations", async () => {
+    const { token } = await createSession();
+    const result = await supertest(app)
+      .get('/balance')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(result.status).toEqual(204);
+  });
+
+  test('should return 200 when there are available transactions', async () => {
+    const { token, user } = await createSession();
+    const fstTransaction = await createTransaction(user.id);
+    const scdTransaction = await createTransaction(user.id);
+    const thdTransaction = await createTransaction(user.id);
+    const balance = fstTransaction.value + scdTransaction.value + thdTransaction.value;
+
+    const result = await supertest(app)
+      .get('/balance')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(result.status).toEqual(200);
+    expect(result.text).toEqual(balance.toFixed(2));
   });
 });
