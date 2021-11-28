@@ -36,7 +36,7 @@ async function authenticate({ email, password }) {
     },
   );
 
-  const session = await sessionRepository.createSession({ token, user });
+  const session = await sessionRepository.insertSession({ token, user });
 
   if (session) return token;
 

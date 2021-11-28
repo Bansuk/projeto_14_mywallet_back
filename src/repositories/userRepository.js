@@ -3,11 +3,11 @@ import connection from '../database/database.js';
 async function insertUser({ name, email, password }) {
   try {
     const result = await connection.query(
-      'INSERT INTO user_account(name, email, password) VALUES ($1, $2, $3);',
+      'INSERT INTO user_account(name, email, password) VALUES ($1, $2, $3) RETURNING *;',
       [name, email, password],
     );
 
-    return result.rowCount;
+    return result.rows[0];
   } catch (error) {
     console.log(error);
     return null;

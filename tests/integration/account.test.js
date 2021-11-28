@@ -1,9 +1,9 @@
-import '../src/setup.js';
+import '../../src/setup.js';
 import supertest from 'supertest';
-import app from '../src/app.js';
-import { clearDatabase, closeConnection } from './utils/database.js';
-import { createUser } from './factories/userFactory.js';
-import { createBody } from './factories/bodyFactory.js';
+import app from '../../src/app.js';
+import { clearDatabase, closeConnection } from '../utils/database.js';
+import { createUser, createUserBody } from '../factories/userFactory.js';
+import { createSession } from '../factories/sessionFactory.js';
 
 async function postSignUp(body) {
   return supertest(app).post('/sign-up').send(body);
@@ -13,19 +13,20 @@ async function postSignIn(body) {
   return supertest(app).post('/sign-in').send(body);
 }
 
-async function deleteSignOut(body, token) {
+async function deleteSignOut(token) {
   return supertest(app)
     .delete('/sign-out')
-    .send(body)
     .set('Authorization', `Bearer ${token}`);
 }
 
 beforeEach(async () => {
+  clearDatabase('transaction');
   clearDatabase('session');
   clearDatabase('user_account');
 });
 
 afterAll(async () => {
+  clearDatabase('transaction');
   clearDatabase('session');
   clearDatabase('user_account');
   closeConnection();
@@ -41,14 +42,13 @@ describe('POST /sign-up', () => {
 
   test('should return 409 when email provided is already in use', async () => {
     const user = await createUser();
-    const body = user;
-    const result = await postSignUp(body);
+    const result = await postSignUp(user);
 
     expect(result.status).toEqual(409);
   });
 
   test('should return 201 when the data provided is valid', async () => {
-    const body = await createBody();
+    const body = createUserBody();
     const result = await postSignUp(body);
 
     expect(result.status).toEqual(201);
@@ -83,25 +83,21 @@ describe('POST /sign-in', () => {
 
 describe('DELETE /sign-out', () => {
   test('should return 401 when token is not provided', async () => {
-    const body = {};
-    const result = await supertest(app).delete('/sign-out').send(body);
+    const result = await supertest(app).delete('/sign-out');
 
     expect(result.status).toEqual(401);
   });
 
   test('should return 401 when token is invalid', async () => {
-    const body = {};
     const invalidToken = '';
-    const result = await deleteSignOut(body, invalidToken);
+    const result = await deleteSignOut(invalidToken);
 
     expect(result.status).toEqual(401);
   });
 
   test('should return 200 when token is valid ', async () => {
-    const user = await createUser();
-    const body = { email: user.email, password: user.cleanPassword };
-    const token = await postSignIn(body);
-    const result = await deleteSignOut(body, token.text);
+    const { token } = await createSession();
+    const result = await deleteSignOut(token);
 
     expect(result.status).toEqual(200);
   });

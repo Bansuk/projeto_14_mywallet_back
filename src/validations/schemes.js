@@ -22,4 +22,9 @@ const signInSchema = joi.object({
     .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,64}$/),
 });
 
-export { signUpSchema, signInSchema };
+const transactionSchema = joi.object({
+  description: joi.string().max(30).required(),
+  value: joi.number().precision(2).required(),
+});
+
+export { signUpSchema, signInSchema, transactionSchema };

@@ -10,15 +10,15 @@ async function verifyToken(req, res, next) {
 
   if (!token) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.JWT_SECRET, (err) => {
-    if (err) return res.sendStatus(401);
-  });
+  const user = jwt.verify(token, process.env.JWT_SECRET);
 
-  const session = findByToken(token);
+  if (!user) return res.sendStatus(401);
+
+  const session = await findByToken(token);
 
   if (!session) return res.sendStatus(401);
 
-  req.user = token;
+  req.user = session;
 
   next();
 }
