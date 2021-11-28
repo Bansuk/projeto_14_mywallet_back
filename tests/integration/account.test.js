@@ -96,7 +96,7 @@ describe('DELETE /sign-out', () => {
   });
 
   test('should return 200 when token is valid ', async () => {
-    const token = await createSession();
+    const { token } = await createSession();
     const result = await deleteSignOut(token);
 
     expect(result.status).toEqual(200);

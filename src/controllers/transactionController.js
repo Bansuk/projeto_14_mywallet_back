@@ -28,7 +28,7 @@ async function receiveTransaction(req, res) {
 
   const transactions = await transactionRepository.getTransactions(session);
 
-  if (transactions) return res.status(200).send(transactions);
+  if (transactions.length) return res.status(200).send(transactions);
   return res.sendStatus(204);
 }
 

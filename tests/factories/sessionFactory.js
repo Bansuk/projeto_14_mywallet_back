@@ -12,7 +12,7 @@ async function createSession() {
 
   await insertSession({ token, user });
 
-  return token;
+  return { token, user };
 }
 
 export { createSession };
