@@ -8,7 +8,7 @@ import { verifyToken } from './middlewares/userMiddleware.js';
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: 'https://projeto-14-mywallet-front-iota.vercel.app' }));
 
 app.post('/sign-up', userController.signUp);
 app.post('/sign-in', userController.signIn);
