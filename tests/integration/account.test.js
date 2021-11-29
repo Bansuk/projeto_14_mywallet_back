@@ -20,16 +20,16 @@ async function deleteSignOut(token) {
 }
 
 beforeEach(async () => {
-  clearDatabase('transaction');
-  clearDatabase('session');
-  clearDatabase('user_account');
+  await clearDatabase('transaction');
+  await clearDatabase('session');
+  await clearDatabase('user_account');
 });
 
 afterAll(async () => {
-  clearDatabase('transaction');
-  clearDatabase('session');
-  clearDatabase('user_account');
-  closeConnection();
+  await clearDatabase('transaction');
+  await clearDatabase('session');
+  await clearDatabase('user_account');
+  await closeConnection();
 });
 
 describe('POST /sign-up', () => {
