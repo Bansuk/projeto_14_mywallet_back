@@ -26,7 +26,6 @@ This application frontend can be found at: https://github.com/Bansuk/projeto_14_
 
 ```
 $ git clone https://github.com/Bansuk/projeto_14_mywallet_back
-
 ```
 
 **2. Install dependencies**
