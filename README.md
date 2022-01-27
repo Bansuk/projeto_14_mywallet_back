@@ -44,7 +44,7 @@ $ npm i
 $ npm start
 ```
 
-**4. You can also run the integration tests available**
+**3.1. You can also run the integration tests available**
 
 ```
 $ npm test
